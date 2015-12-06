@@ -1,0 +1,9 @@
+{% if latest_counter %}
+    <ul>
+    {% for i in latest_counter %}
+        <li><a href="/counters_app/{{i.id}}">{{ i.counter_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
