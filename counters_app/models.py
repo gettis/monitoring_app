@@ -3,13 +3,23 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 
 
+class Dictionary(models.Model):
+    dict_name = models.CharField(max_length = 200)
+    
+    def __str__(self):
+        return dict_name
+
+    
+
 @python_2_unicode_compatible
 class Counter(models.Model):
-	counter_name = models.CharField(max_length=200)
-	counter_value = models.IntegerField()
-	pub_date = models.DateTimeField(auto_now_add=True)
+    
+    dict_entry = models.ForeignKey(Dictionary)
 
-	def __str__(self):
-		return self.counter_name
+    counter_name = models.CharField(max_length=200)
+    counter_value = models.IntegerField()
+    pub_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+    	return self.counter_name
 
