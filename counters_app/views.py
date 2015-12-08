@@ -11,11 +11,11 @@ from bokeh.embed import components
 from bokeh.charts import TimeSeries
 import datetime
 
-def simple_chart(request):
+def simple_chart(request,counter_name):
 	counter_len = len(Counter.objects.values())
 	Date = [Counter.objects.values()[i]["pub_date"] for i in range(counter_len)]
-	name = str(Counter.objects.values()[0]["counter_name"])
-	y_values = [Counter.objects.values()[i]["counter_value"] for i in range(counter_len)]
+	name = counter_name
+	y_values = Counter.objects.values_list("counter_value",flat=True).filter(counter_name=counter_name)
 	
 	ddict = OrderedDict({'Date':Date})
 	ddict[name] = y_values
