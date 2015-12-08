@@ -1,7 +1,7 @@
 {% if latest_counter %}
     <ul>
     {% for i in latest_counter %}
-        <li><a href="/counters_app/{{i.id}}">{{ i.counter_name }}</a></li>
+        <li><a href="http://{{request.get_host}}{% url 'counters_app:simple_chart' %}">{{ i }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
