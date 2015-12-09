@@ -1,16 +1,46 @@
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Experiment with Bokeh</title>
-<link
-    href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
-    rel="stylesheet" type="text/css">
-<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+    		<meta charset="UTF-8">
+    			<title>Counter Display</title>
+	<link
+    		href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
+    		rel="stylesheet" type="text/css">
+
+	<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+	<style>
+		body{
+			background-color:#F0F0F0 ;
+		}
+		.area{
+			float:left;
+			margin-left: 50px;
+		}
+		.histogram{
+			float:left;
+			margin-left: 50px;
+		}
+		.timeseries{
+
+			margin-left: 50px;
+		}
+		
+	</style>
+
 </head>
 <body>
-
-    {{the_div|safe}}
-
-    {{the_script|safe}}
+	<div class="timeseries">
+		{{the_div1|safe}}
+		{{the_script1|safe}}
+	</div>
+	<div class="histogram">
+		{{the_div2|safe}}	
+		{{the_script2|safe}}	
+	</div>
+	<div class="area">
+		{{the_div3|safe}}
+		{{the_script3|safe}}
+	</div>
 </body>
 </html> 
