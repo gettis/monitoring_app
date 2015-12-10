@@ -28,6 +28,8 @@ def simple_chart(request,counter_name):
 	ddict = OrderedDict({'Date':Date})
 	#ddict[name] = y_values
 	
+
+	#plot specifications	
 	TOOLS="pan,wheel_zoom,box_zoom,reset,hover,save"	
 	p = figure(width=1200, height=400, x_axis_type="datetime",tools=TOOLS,title=name+"'s Metrics" )	
 	p.min_border_left = 100
@@ -43,7 +45,7 @@ def simple_chart(request,counter_name):
 	p.outline_line_alpha = 0.3
 	p.outline_line_color = "black"	
 	
-	
+	#HoverTool specifications
 	source = ColumnDataSource(
        		 data=dict(
 		
@@ -63,7 +65,7 @@ def simple_chart(request,counter_name):
 	p.square(Date, y_values, fill_color=None, line_color="green",size=4)
 	script1, div1 = components(p, CDN)
 
-	hist = Histogram(list(y_values),bins=50,title='Histogram',color="#778899")
+	hist = Histogram(list(y_values),bins=50,title='Histogram')
 	hist.border_fill = 'whitesmoke'
 	hist.background_fill = "beige"
 	
