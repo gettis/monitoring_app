@@ -13,20 +13,7 @@ from bokeh.charts import Histogram
 import datetime
 import requests
 from forms import URLForm
-'''
-url = "http://localhost:8000/metrix/"
 
-r = requests.get(url)
-content = r.content
-
-list_counters = content.split("<br \>")
-
-for counter in list_counters:
-    if counter != "":
-        c = counter.split("=")
-        d = Counter(counter_name= c[0], counter_value= c[1])
-        d.save()
-'''
 def get_url(request):
         if request.method == 'POST':
             form = URLForm(request.POST)
@@ -48,7 +35,6 @@ def get_url(request):
                             d.save()
 
                     return HttpResponseRedirect('/counters_app/start')
-    # if a GET (or any other method) we'll create a blank form
         else:
             form = URLForm()
 
