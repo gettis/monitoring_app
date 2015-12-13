@@ -1,7 +1,7 @@
 
 from django.shortcuts import render
 from django.template import RequestContext, loader
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Counter
 
 from bokeh.models import HoverTool
@@ -9,9 +9,50 @@ from collections import OrderedDict
 from bokeh.plotting import figure,ColumnDataSource,vplot
 from bokeh.resources import CDN
 from bokeh.embed import components
-from bokeh.charts import Histogram,Area
+from bokeh.charts import Histogram
 import datetime
+import requests
+from forms import URLForm
+'''
+url = "http://localhost:8000/metrix/"
 
+r = requests.get(url)
+content = r.content
+
+list_counters = content.split("<br \>")
+
+for counter in list_counters:
+    if counter != "":
+        c = counter.split("=")
+        d = Counter(counter_name= c[0], counter_value= c[1])
+        d.save()
+'''
+def get_url(request):
+        if request.method == 'POST':
+            form = URLForm(request.POST)
+            if form.is_valid():
+                url = form.cleaned_data["URL"]
+                try:
+                    r = requests.get(url)
+                except requests.exceptions.RequestException as e:
+                    print e
+                    return HttpResponse("Connection failed")
+                else:
+                    content = r.content
+                    list_counters = content.split("<br \>")
+                    
+                    for counter in list_counters:
+                        if counter != "":
+                            c = counter.split("=")
+                            d = Counter(counter_name= c[0], counter_value= c[1])
+                            d.save()
+
+                    return HttpResponseRedirect('/counters_app/start')
+    # if a GET (or any other method) we'll create a blank form
+        else:
+            form = URLForm()
+
+        return render(request, 'counters_app/URL.html', {'form': form})
 def slope(x1,y1,x2,y2):
 	return str(float(y2 - y1)/(x2 - x1))
 
@@ -71,16 +112,16 @@ def simple_chart(request,counter_name):
 	
 	script2, div2 = components(hist, CDN)
 	
-	area = Area(list(y_values),title="CDF")
-	area.border_fill ="whitesmoke"
-	area.background_fill = "#191970"
+	#area = Area(list(y_values),title="CDF")
+	#area.border_fill ="whitesmoke"
+	#area.background_fill = "#191970"
 		
-	script3, div3 = components(area,CDN)
+	#script3, div3 = components(area,CDN)
 
 	
 
 
-	context = RequestContext(request,{"the_script1":script1, "the_div1":div1,"the_script2":script2,"the_div2":div2,"the_script3":script3,"the_div3":div3})	
+	context = RequestContext(request,{"the_script1":script1, "the_div1":div1,"the_script2":script2,"the_div2":div2})#,"the_script3":script3,"the_div3":div3})	
 
 	return render(request, "counters_app/simple_bokeh.html",context)
 
