@@ -75,23 +75,22 @@ WSGI_APPLICATION = 'counters.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = { 
-  'default': { },
-   
+  'default': {},
   'db1': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'metrix',
+    'NAME': 'metrix1',
     'USER': 'appserver',
     'PASSWORD': 'Nick&AartiRule',
-    'HOST': '127.0.0.1',
-    'PORT': '3307',
+    'HOST': 'localhost',
+    'PORT': '',
   },  
   'db2': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'metrix',
+    'NAME': 'metrix2',
     'USER': 'appserver',
     'PASSWORD': 'Nick&AartiRule',
-    'HOST': '127.0.0.1',
-    'PORT': '3308',
+    'HOST': 'localhost',
+    'PORT': '',
   },  
 }
 
