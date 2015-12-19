@@ -82,7 +82,7 @@ DATABASES = {
     'USER': 'appserver',
     'PASSWORD': 'Nick&AartiRule',
     'HOST': 'localhost',
-    'PORT': '',
+    'PORT': '2323',
   },  
   'db2': {
     'ENGINE': 'django.db.backends.mysql',
@@ -90,7 +90,7 @@ DATABASES = {
     'USER': 'appserver',
     'PASSWORD': 'Nick&AartiRule',
     'HOST': 'localhost',
-    'PORT': '',
+    'PORT': '2324',
   },  
 }
 
