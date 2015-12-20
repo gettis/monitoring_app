@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'counters_app/style.css' %}" />
+    <title> Metrix</title>
+    </head>
+  
+    <h1>METRIX MONITORING</h1> 
+    <body>
+        <div class = "box" >
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <br />
+                    <div class = "button">
+                        <input type="submit" value="Submit" style="border:none", />
+                    </div>
+                </form>
+        </div>
+    </body>
+</html>
