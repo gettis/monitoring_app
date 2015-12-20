@@ -40,12 +40,12 @@ def get_url(request):
                             app_counter = c[0].split("_")
                             _app_name = app_counter[0]
 			    a = app_name(url_hash = u.url_hash, app_name = _app_name)
-                            d = Counter(counter_name= app_counter[1], counter_value= c[1], app_name = app_name, url_hash = u.url_hash, pub_date = parser.parse(c[2]))
+                            d = Counter(counter_name= app_counter[1], counter_value= c[1], app_name = a.app_name, url_hash = u.url_hash, pub_date = parser.parse(c[2]))
                             a.save() 
                             u.save()
 			    d.save()
 
-                    return HttpResponseRedirect('/counters_app/start/'+ str(u.url_hash))
+                    return HttpResponseRedirect('/counters_app/start-apps/'+ str(u.url_hash))
         else:
             form = URLForm()
 
@@ -124,14 +124,22 @@ def dashboard(request,counter_name,db):
 
 	return render(request, "counters_app/simple_bokeh.html",context)
 
-def index(request,url_hash):
+def get_counter(request,app_name,url_hash):
 	url_hash = int(url_hash)
 	r = routers.UserRouter()	
 	db = r._database_of(url_hash)
-	counter_len = len(Counter.objects.using(db).values())
-	counter_names = [str(Counter.objects.using(db).values().order_by("pub_date")[i]["counter_name"]) for i in range(counter_len)]
-	app_names = [str(Counter.objects.using(db).values().order_by("pub_date")[i]["app_name"]) for i in range(counter_len)]
+	counter_len = len(Counter.objects.using(db).values().filter(app_name=app_name))
+	counter_names = [str(Counter.objects.using(db).values().order_by("pub_date").filter(app_name=app_name)[i]["counter_name"]) for i in range(counter_len)]
 	latest_counter = list(set(counter_names))
-	context = RequestContext(request,{'latest_counter':latest_counter,'app_name':app_names,'db':db} )
+	context = RequestContext(request,{'latest_counter':latest_counter,'db':db} )
 	return render(request,'counters_app/Counter.html',context)
 
+def get_apps(request,url_hash):
+        url_hash = int(url_hash)
+        r = routers.UserRouter()
+        db = r._database_of(url_hash)
+        apps_len = len(Counter.objects.using(db).values())
+        app_names = [str(Counter.objects.using(db).values().order_by("pub_date")[i]["app_name"]) for i in range(apps_len)]
+        latest_counter = list(set(app_names))
+        context = RequestContext(request,{'app_names':app_names,'url_hash':url_hash} )
+        return render(request,'counters_app/apps.html',context)

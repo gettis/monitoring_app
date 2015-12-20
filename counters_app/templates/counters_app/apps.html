@@ -23,15 +23,15 @@
 </head>
 <body>
 	<div class="center">
-		{% if latest_counter %}
+		{% if app_names %}
     		<ul>
-				Please Choose a Counter:
-    			{% for i in latest_counter %}
-        			<li><a href="http://{{request.get_host}}/counters_app/dashboard/{{i}}/{{db}}"> {{ i }}</a></li>
+				Please Choose a App:
+    			{% for i in app_names %}
+        			<li><a href="http://{{request.get_host}}/counters_app/start-counter/{{i}}/{{url_hash}}"> {{ i }}</a></li>
     			{% endfor %}
     		</ul>
 		{% else %}
-    			<p>No polls are available.</p>
+    			<p>No Apps are available.</p>
 		{% endif %}
 	</div>
 </body>
