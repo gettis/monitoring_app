@@ -18,6 +18,10 @@ from dateutil import parser
 from bokeh._legacy_charts import Area
 
 def get_url(request):
+
+	''' This function grabs the url that the user inputs in the landing page
+	    Then scrapes the page using requests and loads the values into databse '''
+
         if request.method == 'POST':
             form = URLForm(request.POST)
             if form.is_valid():
@@ -53,10 +57,18 @@ def get_url(request):
 
 
 def slope(x1,y1,x2,y2):
+
+	""" slope function used to be displayed on the hovertool of our dashboard. Allows users to 
+	    get a ruff estimate of the rate of growth of their counter"""
+
 	return str(float(y2 - y1)/(x2 - x1))
 
 
 def dashboard(request,counter_name,db):
+
+	""" This is the main function for our dashboard it queries the database for the correct data 
+	    given from the previous page. Then displays those results in three formats. Histogram, timeseries and CDF """
+
 	counter_len = len(Counter.objects.using(db).values())
 	
 	Date = [Counter.objects.using(db).values()[i]["pub_date"] for i in range(counter_len)]
@@ -89,7 +101,7 @@ def dashboard(request,counter_name,db):
 	source = ColumnDataSource(
        		 data=dict(
 		
-		rates = [slope(points[i][0].microsecond,points[i][1],points[i+1][0].microsecond,points[i+1][1]) for i in range(len(points)-1)]
+		rates = [slope(points[i][0].second,points[i][1],points[i+1][0].second,points[i+1][1]) for i in range(len(points)-1)]
 		)       		 
    	 )	
 
@@ -125,6 +137,10 @@ def dashboard(request,counter_name,db):
 	return render(request, "counters_app/simple_bokeh.html",context)
 
 def get_counter(request,app_name,url_hash):
+
+	"""This function takes in arguments from the previous page and queries the database
+	   these queries return all counters that belong to that app  """
+
 	url_hash = int(url_hash)
 	r = routers.UserRouter()	
 	db = r._database_of(url_hash)
@@ -135,11 +151,14 @@ def get_counter(request,app_name,url_hash):
 	return render(request,'counters_app/Counter.html',context)
 
 def get_apps(request,url_hash):
+	
+	""" This function takes in the url_hash and grabs all apps that belong to that user"""
+
         url_hash = int(url_hash)
         r = routers.UserRouter()
         db = r._database_of(url_hash)
         apps_len = len(Counter.objects.using(db).values())
         app_names = [str(Counter.objects.using(db).values().order_by("pub_date")[i]["app_name"]) for i in range(apps_len)]
-        latest_counter = list(set(app_names))
+        app_names = list(set(app_names))
         context = RequestContext(request,{'app_names':app_names,'url_hash':url_hash} )
         return render(request,'counters_app/apps.html',context)

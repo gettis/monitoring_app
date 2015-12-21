@@ -1,3 +1,5 @@
+'''  This router code was taken from the scalica rounters.py file and repurposed '''
+
 NUM_LOGICAL_SHARDS = 16
 NUM_PHYSICAL_SHARDS = 2 
 
@@ -27,22 +29,18 @@ class UserRouter(object):
       instance = hints['instance']
       db = self._database_of(instance.url_hash)
     except AttributeError:
-      # For the user model the key is id.
       db = self._database_of(instance.id)
     except KeyError:
     	try:
        	   db = self._database_of(int(hints['url_hash']))
         except KeyError:
        	   print "No instance in hints"
-    print "Returning", db
     return db
 
   def db_for_read(self, model, **hints):
-    """ """
     return self._db_for_read_write(model, **hints)
 
   def db_for_write(self, model, **hints):
-    """ """
     return self._db_for_read_write(model, **hints)
 
 
