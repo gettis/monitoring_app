@@ -13,7 +13,7 @@ pip install all dependencies:  sudo pip install -r requirments.txt
 run server from monitor_app/ : python manage.py runserver
 
 
-This app will ask you for a url to scrape. This is where the other part of the project comes in.
+This app will ask you for a url to scrapes. This is where the other part of the project comes in.
 
 The second part of this project is called metrix. It is included in this test target project that we use to test.
 
